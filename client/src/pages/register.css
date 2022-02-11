@@ -1,0 +1,13 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.Register{
+    background: rgb(2,0,36);
+    background: linear-gradient(61deg, rgba(2,0,36,1) 3%, rgba(2,0,38,1) 4%, rgba(9,9,121,1) 56%, rgba(0,212,255,1) 100%);
+}
+.formContainer{
+    width:600px;
+    height:25em;
+    
+}
