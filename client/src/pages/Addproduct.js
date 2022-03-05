@@ -4,9 +4,10 @@ import './register.css'
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 export default function Addproduct() {
     let navigate = useNavigate()
-    const [file, setFile] = useState(" "); 
+    const [file, setFile] = useState(" ");
     const [Products, setProducts] = useState({
         pname: '',
         price: '',
@@ -20,13 +21,18 @@ export default function Addproduct() {
             ...Products,
             [name]: value
         })
-    }
 
+    }
+    const productData = {
+        pname: Products.pname,
+        price: Products.price,
+        image: Products.image
+    }
     const ProductAdd = async (e) => {
-        e.preventDefault()
+        e.preventDefault();
         if (file) {
             const data = new FormData();
-            const filename =file.name
+            const filename = file.name
             data.append("name", filename)
             data.append("file", file)
             // setProducts({
@@ -34,16 +40,19 @@ export default function Addproduct() {
             //     image: filename
             // })
             // console.log(Products)               
-            await axios.post('http://localhost:5000/api/upload', data)
-                .then((response => {
+            axios.post('http://localhost:5000/api/upload', data)
+                .then((response) => {
                     console.log(response)
-                }))
+                })
         }
-        await axios.post("http://localhost:5000/api/adproduct", Products)
+
+        axios.post("http://localhost:5000/api/adproduct", productData)
             .then((response) => {
-                console.log(response.data.data)
-                navigate('/adminhome')
+                console.log(JSON.stringify(response.data.data))
+               
             })
+            navigate('/adminhome')
+
     }
     // const imagehandler=(e)=>{
     //     if(e.target.files&& e.target.files[0])
@@ -59,9 +68,9 @@ export default function Addproduct() {
             <div className='container'>
                 <div className='row'>
                     <div className='col-lg-12'>
-                        <h1 className='text-center text-white mt-2'>Register</h1>
+                        <h1 className='text-center text-white mt-2'>New products</h1>
                         <div className='formContainer text-center mt-5 mx-auto '>
-                            <Form encType='multipart/form-data' >
+                            <Form onSubmit={ProductAdd} >
                                 <Form.Group className="mb-3" >
                                     <Form.Control type="text" placeholder="Product Name" name='pname' onChange={ProductHandler} />
                                 </Form.Group>
@@ -70,10 +79,11 @@ export default function Addproduct() {
                                 </Form.Group>
                                 <div className="form-group">
 
-                                    <input type="file" accept="image/* " class="form-control" name="image" onChange={(e) => { setFile(e.target.files[0]); setProducts({...Products,image:e.target.files[0].name })}} />
+                                    <input type="file" accept="image/* " class="form-control" name="image"
+                                        onChange={(e) => { setFile(e.target.files[0]); setProducts({ ...Products, image: e.target.files[0].name }) }} />
                                 </div>
-                                <Button variant="primary" type="submit" className='mt-2' onClick={ProductAdd} >Add</Button>
-
+                                <Button variant="primary" type="submit" className='mt-2'>Add</Button><br />
+                                <Link to='/adminhome'>Home</Link>
                             </Form>
                         </div>
                     </div>

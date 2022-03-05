@@ -2,9 +2,10 @@ import React, { useEffect, useState } from 'react';
 import { Form, Button } from 'react-bootstrap'
 import './register.css'
 import axios from 'axios'
-import { useParams, useNavigate ,Link} from 'react-router-dom'
+import { useParams, Link } from 'react-router-dom'
+import{useNavigate} from 'react-router'
 export default function Update() {
-    let navigate =useNavigate()
+    let navigate = useNavigate()
     const [editedFile, seteditedFile] = useState("");
     const [edit, setEdit] = useState({
         pname: '',
@@ -27,15 +28,13 @@ export default function Update() {
             [name]: value
         })
     }
-    const edittedData={
-        
-            pname:edit.pname,
-            price:edit.price,
-            image:edit.image
-        
+    const edittedData = {
+        pname: edit.pname,
+        price: edit.price,
+        image: edit.image
     }
 
-    const UpdateHandler = async (e) => {
+    const UpdateHandler=(e) => {
         e.preventDefault();
         if (editedFile) {
             const updata = new FormData()
@@ -43,19 +42,19 @@ export default function Update() {
             updata.append("name", filename)
             updata.append("file", editedFile)
 
-            await axios.post('http://localhost:5000/api/upload', updata)
+            axios.post('http://localhost:5000/api/upload', updata)
                 .then((response) => {
                     console.log("updated image added" + response)
+                   
                 })
         }
 
-        await axios.post(`http://localhost:5000/api/editted/${id}`,edittedData)
-        .then((response) => {
-            console.log(response.data.data)
+            axios.post(`http://localhost:5000/api/editted/${id}`,edittedData)
+            .then((response) => {
+                console.log(JSON.stringify(response.data.data))                
+            })
             navigate('/adminhome')
 
-        })
-            
     }
     return (
         <div className="Register" style={{ width: "100%", height: "300vh" }}>
@@ -64,7 +63,7 @@ export default function Update() {
                     <div className='col-lg-12'>
                         <h1 className='text-center text-white mt-2'>Update</h1>
                         <div className='formContainer text-center mt-5 mx-auto '>
-                            <Form encType='multipart/form-data'>
+                            <Form>
                                 <Form.Group className="mb-3" >
                                     <Form.Control type="text" placeholder="Product Name" value={edit.pname} name='pname' onChange={Edithandler} />
                                 </Form.Group>
@@ -73,7 +72,7 @@ export default function Update() {
                                 </Form.Group>
                                 <div className="form-group">
 
-                                    <input type="file" accept="image/* " class="form-control" name="image" onChange={(e) =>{seteditedFile(e.target.files[0]); setEdit({ ...edit,image:e.target.files[0].name })}} />
+                                    <input type="file" accept="image/* " class="form-control" name="image" onChange={(e) => { seteditedFile(e.target.files[0]); setEdit({ ...edit, image: e.target.files[0].name }) }} />
                                 </div>
                                 <Button variant="primary" type="submit" className='mt-2' onClick={UpdateHandler}>Update</Button>
 

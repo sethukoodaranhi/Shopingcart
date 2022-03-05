@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Button, Modal, FloatingLabel, Form, Col, Row } from 'react-bootstrap';
 import { useState } from 'react';
 import './register.css'
 import axios from 'axios';
  import DeliveryaddressView from '../components/DeliveryaddressView';
-export default function DeliveryAddress() {
+export default function DeliveryAddress() {   
     const [Address, setAddress] = useState({
         houseno:0,
         area:'',
@@ -12,6 +12,7 @@ export default function DeliveryAddress() {
         pincode:0,
         landmark:''
     })
+  
     const Getaddress=(e)=>{
         const{name,value}=e.target
         setAddress({

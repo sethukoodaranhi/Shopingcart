@@ -1,8 +1,10 @@
 import React from 'react'
 import { ListGroup,Card,Button } from 'react-bootstrap'
 import { useEffect, useState } from 'react'
+import { Link ,useNavigate} from 'react-router-dom'
 import axios from 'axios'
 export default function () {
+    let navigate=useNavigate()
     const [addressStore, setaddressStore] = useState([])
     useEffect(() => {
         axios.get('http://localhost:5000/api/viewaddress')
@@ -11,6 +13,13 @@ export default function () {
                 setaddressStore(response.data.data)
             })
     }, [])
+    
+    const AddressDelete=(id)=>{
+        axios.get(`http://localhost:5000/api/addressDelete/${id}`).then(response=>{
+            console.log("deleted address.."+response.data.data)
+            navigate('/delivery')
+        })
+    }
     return (
         <>
             {addressStore.map((value, key) => {
@@ -30,8 +39,8 @@ export default function () {
                                         <li>{value.landmark}</li>
                                     </ul>
                                 </Card.Text>
-                                <Card.Link href="#"><Button>Edit</Button></Card.Link>
-                                <Card.Link href="#"><Button>Delete</Button></Card.Link>
+                                <Link to={`/editaddress/${value._id}`}> <Button className='me-3'>Edit</Button></Link>
+                                <Link to=''><Button onClick={() =>AddressDelete(value._id)}>Delete</Button></Link>
                             </Card.Body>
                         </Card>
                     </div>

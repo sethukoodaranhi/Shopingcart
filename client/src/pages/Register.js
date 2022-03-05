@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { Form, Button } from 'react-bootstrap'
+import { Form, Button, Alert } from 'react-bootstrap'
 import './register.css'
 import { Link } from 'react-router-dom';
 import { useNavigate } from 'react-router';
@@ -23,12 +23,20 @@ export default function Register() {
 
     const reghandler = (e) => {
         e.preventDefault();
-        axios.post('http://localhost:5000/api/add', regdata)
+        const{usname,email,mob,sex,username,password,role}=regdata
+        if(usname&&email&&mob&&sex&&username&&password&&role)
+        {           
+            axios.post('http://localhost:5000/api/add', regdata)       
             .then((response) => {
-
-                console.log("data added" + response.data.detail)
+                console.log("data added" + JSON.stringify(response.data.detail))
                 navigate('/')
             })
+            alert("successfully registered")
+        }
+        else{
+            alert("All the fields are mandatory")
+        }
+      
     }
 
     const handleChange = (e) => {

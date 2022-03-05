@@ -12,35 +12,38 @@ import Product from './pages/Product';
 import Cart from './pages/Cart';
 import CartView from './pages/CartView';
 import DeliveryAddress from './pages/DeliveryAddress';
+import EditAddress from './pages/EditAddress';
 import {
   BrowserRouter,
   Routes,
   Route
 } from "react-router-dom";
 function App() {
-  const [userName, setUserName] = useState({
-    uname:'sethu'
+  const [userName, setUserName]=useState({
+    uname:'',
+    admin:''
   });
   return (
-
     <div className="App">
-
-      <LoginContext.Provider value={{uname:userName.uname,setUserName}}>
+      
         <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Login />} />
-            <Route path="register" element={<Register />} />
-            <Route path="home" element={<Homepage />} />
-            <Route path="adminhome" element={<AdminHome />} />
-            <Route path="addproduct" element={<Addproduct />} />
-            <Route path="edit/:id" element={<Update />} />
-            <Route path="buy/:id" element={<Product />} />
-            <Route path="cart/:id" element={<Cart />} />
-            <Route path="cartview" element={<CartView />} />
-            <Route path="delivery/:id" element={<DeliveryAddress />} />
+        <LoginContext.Provider value={{uname:userName.uname,admin:userName.admin,setUserName}}>
+          <Routes>          
+            <Route exact path="/" element={<Login />} />
+            <Route exact path="register" element={<Register />} />
+            <Route exact path="home" element={<Homepage />} />
+            <Route exact path="/adminhome" element={<AdminHome />} />    
+            <Route exact path="/addproduct" element={<Addproduct />} />
+            <Route exact path="edit/:id" element={<Update />} />
+            <Route exact path="buy/:id" element={<Product />} />
+            <Route  exact path="cart/:id" element={<Cart />} />
+            <Route exact path="cartview" element={<CartView />} />
+            <Route exact path="delivery" element={<DeliveryAddress />} />
+            <Route exact path="editaddress/:id" element={<EditAddress />} />
           </Routes>
-        </BrowserRouter>,
-      </LoginContext.Provider>
+          </LoginContext.Provider>
+        </BrowserRouter>
+      
 
     </div>
   );

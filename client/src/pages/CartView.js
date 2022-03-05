@@ -51,7 +51,7 @@ export default function CartView() {
                         </Card.Body>
                         <Card.Footer>   
                         <Button variant="primary" className='btn-sm me-2' onClick={()=>CartDelete(value._id)}><DeleteIcon/></Button> 
-                          <Link to={`/delivery/${value._id}`}><Button className='btn-sm'>Buy<PaidOutlined/></Button></Link>               
+                          <Link to='/delivery'><Button className='btn-sm'>Buy<PaidOutlined/></Button></Link>               
                         </Card.Footer>
                         {/* {total=total+parseInt(value.totalprice)} */}
                     </Card>

@@ -13,14 +13,13 @@ export default function Login() {
         username: "",
         password: ""
     });
-    useEffect(() => {
-        const localdata = localStorage.getItem('eshopyuserdetail')
-        if (localdata) {
-            setUserName({ uname: localdata.username })
-
-        }
-        console.log(localdata)
-    }, [Login])
+    // useEffect(() => {
+    //     const localdata = JSON.parse(localStorage.getItem('eshopyuserdetail'))
+    //     if (localdata) {
+    //         setUserName({uname: localdata.username})
+    //     }
+    // console.log("localdatas:"+localdata)
+    // }, [Login])
 
     const LoginHandler = (e) => {
         const { name, value } = e.target
@@ -37,21 +36,24 @@ export default function Login() {
         axios.post('http://localhost:5000/api/logn', Login)
             .then((response) => {
                 console.log(response.data.data)
-                 setUserName({uname:response.data.data.username})       
+                //  setUserName({uname:response.data.data.username})       
                 if (response.data.data.role === 1) {
                     navigate('/adminhome')
-                    localStorage.setItem("eshopyuserdetail", JSON.stringify({
-                        username: response.data.data.username,
-                        role: response.data.data.role
-                    }))
-
+                    localStorage.setItem("eshopyuserdetail", JSON.stringify(response.data.data))
+                   let userdata= JSON.parse(localStorage.getItem("eshopyuserdetail"))
+                   if(userdata){
+                       setUserName({admin:userdata.username})
+                   }
+                    
                 }
-                else {
-                    localStorage.setItem("eshopyuserdetail", JSON.stringify({
-                        username: response.data.data.username,
-                        role: response.data.data.role
-                    }))
+                else {                                                             
                     navigate('/home')
+                    localStorage.setItem("eshopyuserdetail", JSON.stringify(response.data.data))
+                    let user= JSON.parse(localStorage.getItem("eshopyuserdetail"))
+                    if(user){
+                        setUserName({uname:user.username})
+                    }
+                   
                 }
                 // setLogin({
                 //     username:response.data.data.username

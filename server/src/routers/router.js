@@ -103,10 +103,12 @@ router.post('/adproduct',(req,res)=>{
     }
     const pitems=Addproducts(items)
     pitems.save().then((response)=>{
-        console.log(response)
+        console.log("product added in server"+response)
         res.json({
             data:response
+            
         })
+        
     })
 })
 router.get('/pview',(req,res)=>{
@@ -221,6 +223,40 @@ router.post('/deliveryaddress',(req,res)=>{
 })
 router.get('/viewaddress',(req,res)=>{
     deliveryaddress.find().then(response=>{
+        console.log(response)
+        res.json({
+            data:response
+        })
+    })
+})
+router.get('/delAddress/:id',(req,res)=>{
+    const id=req.params.id
+    deliveryaddress.findById(id).then((response)=>{
+        console.log(response)
+        res.json({
+            data:response
+        })
+    })
+})
+router.post('/updateAddress/:id',(req,res)=>{
+    const id=req.params.id
+    const data={
+        houseno:req.body.houseno,
+        area:req.body.area,
+        mobile:req.body.mobile,
+        pincode:req.body.pincode,
+        landmark:req.body.landmark
+    }
+    deliveryaddress.findByIdAndUpdate(id,data).then((response)=>{
+        console.log("edited address is" + response)
+        res.json({
+            data:response
+        })
+    })
+})
+router.get('/addressDelete/:id',(req,res)=>{
+    const id=req.params.id
+    deliveryaddress.findByIdAndDelete(id).then((response)=>{
         console.log(response)
         res.json({
             data:response
